@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A História de Myrella & Neto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos gerais com design elegante */
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+            background-image: 
+                radial-gradient(circle at top right, rgba(246, 234, 208, 0.2), transparent),
+                radial-gradient(circle at 20% 80%, rgba(255, 244, 223, 0.2), transparent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Container do slideshow com bordas elegantes */
+        .slideshow-container {
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 10px 50px rgba(219, 198, 147, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(219, 198, 147, 0.3);
+        }
+        
+        /* Estilo dos slides com animações refinadas */
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 3s ease-in-out, transform 3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transform: scale(1.03) translateY(8px);
+        }
+        
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        /* Decoração elegante para o container de imagens */
+        .slide-image {
+            width: 92%;
+            height: 75%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 4% auto 0;
+            box-shadow: 0 5px 25px rgba(219, 198, 147, 0.15);
+            background-color: #f9f9f9;
+        }
+        
+        /* Borda elegante champanhe para imagens */
+        .slide-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid rgba(219, 198, 147, 0.3);
+            border-radius: 10px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* Efeito de iluminação sutil nos cantos */
+        .slide-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 70%),
+                         radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.8), transparent 70%);
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 5;
+        }
+        
+        /* Sistema de ajuste automático de fotos com animação suave */
+        .slide-image img {
+            transition: transform 15s ease-in-out;
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 1;
+            border-radius: 8px;
+        }
+        
+        /* Classe para fotos em paisagem (mais largas que altas) */
+        .slide-image img.landscape {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        /* Classe para fotos em retrato (mais altas que largas) */
+        .slide-image img.portrait {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        /* Classe para fotos quadradas */
+        .slide-image img.square {
+            width: 88%;
+            height: 88%;
+            object-fit: contain;
+        }
+        
+        /* Efeito de zoom suave quando o slide está ativo */
+        .slide.active .slide-image img {
+            transform: scale(1.06);
+        }
+        
+        /* Legendas com estilo elegante */
+        .caption {
+            padding: 10px 0;
+            color: #000000;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-style: italic;
+            font-weight: 400;
+            max-width: 90%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(transparent, rgba(246, 234, 208, 0.4));
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            margin: 0;
+            letter-spacing: 0.7px;
+            line-height: 1.5;
+        }
+        
+        /* Controles de navegação estilizados */
+        
+        
+        .controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(219, 198, 147, 0.3);
+}
+
+/* Estilo para os botões com ícones */
+.controls button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: rgba(160, 141, 104, 0.9);
+    font-size: 20px;
+    transition: all 0.3s;
+    border-radius: 50%;
+}
+
+.controls button:hover {
+    background-color: rgba(246, 234, 208, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Ícones para os botões */
+.prev-icon::before {
+    content: "←";
+}
+
+.play-icon::before {
+    content: "►";
+}
+
+.pause-icon::before {
+    content: "❚❚";
+}
+
+.next-icon::before {
+    content: "→";
+}
+        /* Barra de progresso elegante */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            background: linear-gradient(to right, #e6d7b1, #f8f3e3, #e6d7b1);
+            transition: width 0.5s;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Container do vídeo com estilo elegante */
+        .video-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        video {
+            width: 94%;
+            height: 75%;
+            object-fit: contain;
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(219, 198, 147, 0.15);
+            border: 1px solid rgba(219, 198, 147, 0.2);
+            transition: all 0.5s ease;
+        }
+        
+        /* Adicionar um efeito de destaque quando os vídeos estão em foco */
+        video:focus {
+            outline: none;
+            box-shadow: 0 5px 30px rgba(219, 198, 147, 0.3);
+        }
+        
+        /* Estilos para os slides de introdução e encerramento */
+        .intro-slide, .final-slide {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('./assets/img/casamento-myrella/casal6.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #5a5a5a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+        
+        /* Overlay decorativo para slides especiais */
+        .intro-slide::before, .final-slide::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid rgba(209, 197, 166, 0.3);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+        
+        .intro-title, .final-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 88px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(255, 253, 253, 0.1);
+            background: linear-gradient(45deg, #ffffff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight:500;
+        }
+        
+        .intro-subtitle, .final-date {
+            font-family: 'Raleway', sans-serif;
+            font-size: 26px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+        
+        /* Elemento decorativo para o título */
+        .title-decoration {
+            width: 120px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="20" viewBox="0 0 120 20"><path d="M0,10 C30,2 90,2 120,10 C90,18 30,18 0,10 Z" fill="none" stroke="rgba(219,198,147,0.5)" stroke-width="1"/></svg>');
+            margin: 15px auto;
+        }
+        
+        /* Decoração floral elegante */
+        .floral-decoration {
+            position: absolute;
+            width: 120px;
+            height: 100px;
+            opacity: 0.25;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 5;
+            pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="100" viewBox="0 0 120 100"><path d="M60,10 C70,30 90,40 100,30 C90,50 95,80 80,90 C65,80 70,50 60,40 C50,50 55,80 40,90 C25,80 30,50 20,30 C30,40 50,30 60,10 Z" fill="none" stroke="rgba(219,198,147,0.8)" stroke-width="1" /><path d="M60,20 C63,25 67,28 70,26 C67,30 68,40 65,42 C61,40 62,30 60,28 C58,30 59,40 55,42 C52,40 53,30 50,26 C53,28 57,25 60,20 Z" fill="rgba(219,198,147,0.2)" stroke="rgba(219,198,147,0.4)" stroke-width="0.5" /></svg>');
+        }
+        
+        .top-center {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .bottom-center {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Controles de áudio estilizados */
+        .audio-controls {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 30px;
+            z-index: 100;
+            border: 1px solid rgba(219, 198, 147, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .audio-controls button {
+            background: none;
+            border: none;
+            color: rgba(160, 141, 104, 0.9);
+            cursor: pointer;
+            padding: 8px;
+            margin: 0 5px;
+            font-size: 16px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+        
+        .audio-controls button:hover {
+            background-color: rgba(246, 234, 208, 0.6);
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        
+        .audio-controls .volume-slider {
+            width: 70px;
+            margin: 0 8px;
+            /*-webkit-appearance: none;*/
+            height: 4px;
+            background: rgba(219, 198, 147, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .audio-controls .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: rgba(219, 198, 147, 0.8);
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ---------------------*/
+        .dark-transition {
+        background-color: rgba(0, 0, 0, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .centered-message {
+        color: #f6ebd0;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 42px;
+        font-style: italic;
+        padding: 30px;
+        line-height: 1.5;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        max-width: 80%;
+    }
+
+    .dark-transition-full {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+    
+    @media (max-width: 768px) {
+        .centered-message {
+            font-size: 28px;
+            padding: 20px;
+        }
+    }
+
+
+    .final-slide-new {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), 
+                url('./assets/img/casal-maos-alianças.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: #5a5a5a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+/* Overlay decorativo para o slide final */
+.final-slide-new::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 2px solid rgba(209, 197, 166, 0.3);
+    border-radius: 12px;
+    pointer-events: none;
+}
+    /*-------------------*/
+        
+        /* Animação de fade para os textos */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide.active .caption,
+        .slide.active .phase-title {
+            animation: fadeIn 1.8s ease-out forwards;
+        }
+        
+        /* Efeitos sutis para slides especiais */
+        .noivado-slide .slide-image {
+            box-shadow: 0 0 30px rgba(219, 198, 147, 0.25);
+        }
+        
+        /* Animação de pétalas caindo para slides especiais */
+        @keyframes fallDown {
+            0% { transform: translateY(0) rotate(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(100px) rotate(90deg); opacity: 0; }
+        }
+        
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: rgba(246, 234, 208, 0.7);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: -20px;
+            z-index: 10;
+            animation: fallDown 10s infinite linear;
+            opacity: 0;
+        }
+        
+        /* Melhorias para os slides de vídeo */
+        .video-play-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .video-play-indicator:before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 0 15px 26px;
+            border-color: transparent transparent transparent rgba(219, 198, 147, 0.8);
+            margin-left: 7px;
+        }
+
+        /* Esconder o indicador quando o vídeo estiver tocando */
+        .playing .video-play-indicator {
+            opacity: 0;
+        }
+        
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 768px) {
+            .intro-title, .final-title {
+                font-size: 42px;
+            }
+            
+            .caption {
+                font-size: 18px;
+            }
+           
+            
+            .floral-decoration {
+                width: 80px;
+                height: 70px;
+            }
+            
+            .title-decoration {
+                width: 80px;
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .audio-controls {
+                bottom: 25px;
+                right: 25px;
+                padding: 6px 12px;
+            }
+            
+            .audio-controls button {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .video-container video {
+                width: 90%;
+                height: 65%;
+            }
+            
+            .video-container .caption {
+                font-size: 16px;
+                max-width: 90%;
+                margin-top: 10px;
+            }
+            
+            .video-play-indicator {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .video-play-indicator:before {
+                border-width: 10px 0 10px 20px;
+            }
+        }
+
+        /* Controle de volume compacto */
+.audio-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+}
+
+.volume-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume-slider-container {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    bottom: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(219, 198, 147, 0.3);
+}
+
+.volume-slider-container.active {
+    height: 120px;
+    padding: 10px;
+}
+
+/* Orientar o controle deslizante verticalmente */
+.audio-controls .volume-slider {
+    width: 4px;
+    height: 100px;
+    writing-mode: bt-lr; /* Suporte IE */
+    -webkit-appearance: slider-vertical; /* Suporte WebKit */
+    margin: 0;
+    background: rgba(219, 198, 147, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.audio-controls button {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(219, 198, 147, 0.3);
+    color: rgba(160, 141, 104, 0.9);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .controls {
+        bottom: 15px;
+        padding: 5px 10px;
+    }
+    
+    .controls button {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    .audio-controls button {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    .volume-slider-container.active {
+        height: 100px;
+        padding: 8px;
+    }
+    
+    .audio-controls .volume-slider {
+        height: 80px;
+    }
+}
+
+/* Estilos para dispositivos muito pequenos */
+@media (max-width: 360px) {
+    .controls {
+        gap: 10px;
+        padding: 4px 8px;
+    }
+    
+    .controls button, 
+    .audio-controls button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Áudio de fundo -->
+    <audio id="background-music" loop>
+        <source src="./assets/audio/WhatsApp Audio 2025-03-09 at 01.18.33.mp4" type="audio/mp3">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+    
+    <!-- Container principal do slideshow -->
+    <div class="slideshow-container">
+        <!-- Decorações florais elegantes -->
+        <div class="floral-decoration top-center"></div>
+        <div class="floral-decoration bottom-center"></div>
+        
+        <!-- Slide 1: Intro -->
+        <div class="slide active">
+            <div class="slide-image intro-slide">
+                <h1 class="intro-title">Myrella & Raimundo Neto</h1>
+                <div class="title-decoration"></div>
+                <p class="intro-subtitle">Uma jornada de amor</p>
+            </div>
+            <div class="caption">Dois caminhos que começaram tão distantes, mas que o destino tratou de unir...</div>
+        </div>
+        
+        <!-- INFÂNCIA DA NOIVA - Slides 2-4 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/lella-pequena.jpeg" alt="Myrella quando bebê">
+            </div>
+            <div class="caption">Em Fortaleza, começa a história de uma menina encantadora</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/3irmas.jpeg" alt="Myrella criança">
+            </div>
+            <div class="caption">Seus primeiros cinco anos foram embalados pelo calor e alegria do Ceará</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/myrella-adolescente-pais.jpeg" alt="Myrella criança com família">
+            </div>
+            <div class="caption">Até que São Paulo se tornou seu novo lar</div>
+        </div>
+        
+        <!-- INFÂNCIA DO NOIVO - Slides 5-7 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/neto13.jpeg" alt="Noivo quando bebê">
+            </div>
+            <div class="caption">Na Bahia, um jovem traçava seu próprio caminho</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/neto9.jpeg" alt="Noivo criança">
+            </div>
+            <div class="caption">Desde cedo, mostrava dedicação aos estudos e sonhos maiores que seu quintal</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/neto8.jpeg" alt="Noivo criança com família">
+            </div>
+            <div class="caption">Com determinação, construía uma vida cheia de propósito</div>
+        </div>
+        
+        <!-- ADOLESCÊNCIA DA NOIVA - Slides 8-9 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/adolescete-myrella-melhor.jpeg" alt="Myrella adolescente">
+            </div>
+            <div class="caption">Myrella crescia e seus sonhos tomavam forma, preparando-se para voos mais altos</div>
+        </div>
+        
+        <!-- ADOLESCÊNCIA DO NOIVO - Slides 10-11 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/neto3.jpeg" alt="Noivo adolescente">
+            </div>
+            <div class="caption">Neto também sonhava com novas oportunidades e desafios. São Paulo também se tornou seu destino</div>
+        </div>
+        
+        <!-- FACULDADE - Slides 12-13 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/formatura2.jpeg" alt="Myrella na faculdade">
+            </div>
+            <div class="caption">A faculdade abriu novos horizontes para Myrella, que seguia determinada</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/NETO-TRABALHO.jpeg" alt="Noivo no trabalho">
+            </div>
+            <div class="caption">Ele construía sua carreira, com dedicação e compromisso</div>
+        </div>
+        
+        <!-- ENCONTRO - Slides 14-15 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal9.jpeg" alt="Primeira foto juntos">
+            </div>
+            <div class="caption">E então, seus caminhos finalmente se cruzaram</div>
+        </div>
+        
+        <!-- RELACIONAMENTO - Slides 16-20 -->
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casal-historias.jpeg" alt="Casal em viagem">
+            </div>
+            <div class="caption">Juntos, começaram a escrever sua própria história</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal4.jpeg" alt="Casal em outra viagem">
+            </div>
+            <div class="caption">Anos de companheirismo, superando desafios e construindo memórias</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal.jpeg" alt="Casal no dia a dia">
+            </div>
+            <div class="caption">Na rotina diária, descobriram que o amor verdadeiro se revela nos pequenos gestos</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal-apto-novo.jpeg" alt="Casal em festa">
+            </div>
+            <div class="caption">Celebrando juntos, crescendo juntos, sonhando juntos</div>
+        </div>
+        
+        <div class="slide">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal6.jpeg" alt="Casal em momento especial">
+            </div>
+            <div class="caption">Bons anos que solidificaram uma certeza: eram destinados um ao outro</div>
+        </div>
+        
+        <!-- NOIVADO - Slides 21-22 -->
+        <div class="slide noivado-slide" id="noivado-slide-1">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/o-pedido.jpeg" alt="Pedido de noivado">
+            </div>
+            <div class="caption">Após anos de companheirismo, decidiram que era hora de oficializar o que seus corações já sabiam</div>
+        </div>
+        
+        
+        <div class="slide noivado-slide" id="noivado-slide-2">
+            <div class="slide-image">
+                <img src="./assets/img/casamento-myrella/casal-cartorio.jpeg" alt="Casal mostrando alianças">
+            </div>
+            <div class="caption">De uma história com raízes no Nordeste e cultivada em São Paulo, floresce agora uma família</div>
+        </div>
+        
+        <!-- VÍDEOS DOS PAIS - Nova sequência organizada -->
+        <!-- Slide com vídeo da mãe da noiva (primeiro) -->
+        <div class="slide">
+            <div class="video-container">
+                <video controls>
+                    <source src="./assets/video/Gecilda e Júnior Casamento Myrella e Neto 43 MB.mp4" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+                <div class="caption">Uma mensagem de amor e desejo para um futuro repleto de felicidade</div>
+            </div>
+        </div>
+
+        <!-- Slide de transição escuro entre os vídeos -->
+        <div class="slide">
+            <div class="dark-transition-full">
+                <div class="centered-message">
+                    Agora, mais palavras especiais de carinho e bênção...
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide com vídeo da mãe do noivo (segundo) -->
+        <div class="slide">
+            <div class="video-container">
+                <video controls>
+                    <source src="./assets/video/mae-neto.mp4" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+                <div class="caption">Mesmo à distância, celebra com todo o coração o amor do seu filho</div>
+            </div>
+        </div>
+        
+        <!-- ENCERRAMENTO - Slide 26 -->
+        <!-- ENCERRAMENTO - Slide com nova imagem -->
+<div class="slide">
+    <div class="slide-image final-slide-new">
+        <h1 class="final-title">Myrella & Raimundo Neto</h1>
+        <div class="title-decoration"></div>
+        <p class="final-date">22/03/2025</p>
+    </div>
+    <div class="caption">E assim, começa o capítulo mais bonito desta história</div>
+</div>
+    
+    <!-- Controles de navegação com ícones -->
+<div class="controls">
+    <button id="prev" class="prev-icon" aria-label="Anterior"></button>
+    <button id="play-pause" class="pause-icon" aria-label="Pausar/Play"></button>
+    <button id="next" class="next-icon" aria-label="Próximo"></button>
+</div>
+
+<!-- Controles de áudio compactos -->
+<div class="audio-controls">
+    <div class="volume-container">
+        <div id="volume-slider-container" class="volume-slider-container">
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.1" value="0.5" aria-label="Ajustar Volume" orient="vertical">
+        </div>
+        <button id="music-toggle" aria-label="Controle de Música">♪</button>
+    </div>
+</div>
+    
+    <!-- Barra de progresso -->
+    <div class="progress-bar" id="progress"></div>
+    
+    <!-- Scripts JavaScript -->
+    <script>
+        // Scripts JavaScript 
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleção de elementos
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const playPauseBtn = document.getElementById('play-pause');
+    const progressBar = document.getElementById('progress');
+    const videos = document.querySelectorAll('video');
+    const backgroundMusic = document.getElementById('background-music');
+    const musicToggle = document.getElementById('music-toggle');
+    const volumeSlider = document.getElementById('volume-slider');
+    const noivadoSlides = document.querySelectorAll('.noivado-slide');
+    
+    // Variáveis de estado
+    let currentSlide = 0;
+    let isPlaying = true;
+    let slideInterval = setInterval(nextSlide, 10000);
+    let slideTimeout;
+    let isMusicPlaying = false;
+    
+    // Função para criar pétalas para slides especiais
+    function createPetals() {
+        const container = document.querySelector('.slideshow-container');
+        
+        // Criar 20 pétalas
+        for (let i = 0; i < 20; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            
+            // Posição aleatória horizontal
+            petal.style.left = `${Math.random() * 100}%`;
+            
+            // Tamanho aleatório
+            const size = 10 + Math.random() * 15;
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            
+            // Rotação aleatória
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            // Atraso aleatório na animação
+            petal.style.animationDelay = `${Math.random() * 10}s`;
+            
+            // Duração aleatória da animação
+            petal.style.animationDuration = `${5 + Math.random() * 10}s`;
+            
+            // Cor levemente variável
+            const hue = 40 + Math.random() * 10;
+            const saturation = 30 + Math.random() * 20;
+            const lightness = 85 + Math.random() * 10;
+            petal.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            
+            container.appendChild(petal);
+        }
+    }
+    
+    // Função para detectar orientação da imagem e aplicar classes apropriadas
+    function setupImageClasses() {
+        const imageElements = document.querySelectorAll('.slide-image img');
+        
+        imageElements.forEach(img => {
+            // Quando a imagem carregar, verificar sua orientação
+            img.onload = function() {
+                if (this.naturalHeight > this.naturalWidth * 1.2) {
+                    // Imagem em retrato (mais alta que larga)
+                    this.classList.add('portrait');
+                } else if (Math.abs(this.naturalHeight - this.naturalWidth) < 50) {
+                    // Imagem aproximadamente quadrada
+                    this.classList.add('square');
+                } else {
+                    // Imagem em paisagem (mais larga que alta)
+                    this.classList.add('landscape');
+                }
+            };
+            
+            // Para imagens já carregadas do cache
+            if (img.complete) {
+                img.onload();
+            }
+        });
+    }
+    
+    // Inicialização do volume da música
+    volumeSlider.value = 0.5;
+    backgroundMusic.volume = 0.5;
+    
+    // Função para fazer transição suave de volume
+    function fadeAudio(startVolume, endVolume, duration = 1000) {
+        // Cancelar qualquer fade em andamento
+        if (window.fadeInterval) {
+            clearInterval(window.fadeInterval);
+        }
+        
+        const volumeStep = (endVolume - startVolume) / (duration / 50); // 50ms por passo
+        let currentVolume = startVolume;
+        
+        backgroundMusic.volume = currentVolume;
+        
+        window.fadeInterval = setInterval(() => {
+            currentVolume += volumeStep;
+            
+            // Garantir que o volume esteja dentro dos limites
+            if ((volumeStep > 0 && currentVolume >= endVolume) || 
+                (volumeStep < 0 && currentVolume <= endVolume)) {
+                currentVolume = endVolume;
+                backgroundMusic.volume = endVolume;
+                clearInterval(window.fadeInterval);
+                return;
+            }
+            
+            backgroundMusic.volume = currentVolume;
+        }, 50);
+    }
+    
+    // Funções de controle de música
+    function toggleMusic() {
+        if (isMusicPlaying) {
+            backgroundMusic.pause();
+            musicToggle.textContent = '♪';
+            musicToggle.style.opacity = '0.5';
+            isMusicPlaying = false;
+        } else {
+            backgroundMusic.play();
+            musicToggle.textContent = '♫';
+            musicToggle.style.opacity = '1';
+            isMusicPlaying = true;
+        }
+    }
+    
+    function adjustVolume() {
+        fadeAudio(backgroundMusic.volume, volumeSlider.value, 500); // Transição de 0.5 segundos
+    }
+    
+    // Função para mostrar pétalas em slides de noivado
+    function togglePetals(show) {
+        const petals = document.querySelectorAll('.petal');
+        petals.forEach(petal => {
+            petal.style.opacity = show ? '1' : '0';
+        });
+    }
+    
+    // Função para lidar com os vídeos de maneira mais robusta
+    function handleVideoSlides() {
+        const videoSlides = document.querySelectorAll('.slide:has(video)');
+        
+        videos.forEach((video, index) => {
+            // Garantir que o vídeo tenha seus metadados carregados
+            if (video.readyState === 0) {
+                video.addEventListener('loadedmetadata', function() {
+                    console.log(`Vídeo ${index+1} carregado, duração: ${video.duration}s`);
+                });
+            }
+            
+            // Melhorar o comportamento de manuseio de vídeo ao mudar slides
+            video.addEventListener('play', function() {
+                // Reduzir o volume da música de fundo
+                if (isMusicPlaying && backgroundMusic) {
+                    fadeAudio(backgroundMusic.volume, volumeSlider.value * 0.02, 1000);
+                }
+            });
+            
+            // Quando o vídeo terminar, restaurar o volume mas NÃO avançar automaticamente
+            video.addEventListener('ended', function() {
+                if (isMusicPlaying && backgroundMusic) {
+                    fadeAudio(backgroundMusic.volume, volumeSlider.value, 1000);
+                }
+                
+                // Removido o avanço automático para o próximo slide
+                // Agora o slideshow seguirá o tempo normal para o próximo slide
+            });
+            
+            // Se o usuário pausar manualmente o vídeo, pausar também o slideshow
+            video.addEventListener('pause', function() {
+                if (isPlaying && !video.ended) {
+                    pauseSlideshow();
+                }
+            });
+        });
+    }
+    
+    // Função para mostrar um slide específico
+    function showSlide(index) {
+        // Pausar todos os vídeos ao mudar de slide
+        videos.forEach(video => {
+            video.pause();
+            // Reinicia o vídeo para que comece do início na próxima visualização
+            video.currentTime = 0;
+        });
+        
+        // Remover a classe 'active' de todos os slides e adicioná-la ao slide atual
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[index].classList.add('active');
+        
+        // Verificar se estamos em um slide de noivado ou não
+        const isNoivadoSlide = slides[index].classList.contains('noivado-slide');
+        togglePetals(isNoivadoSlide);
+        
+        // O slide atual contém um vídeo?
+        const currentVideo = slides[index].querySelector('video');
+        
+        // Verificar se é o slide de transição escuro
+        const isDarkTransition = slides[index].querySelector('.dark-transition-full') !== null;
+        
+        // Ajustar volume da música com base no tipo de slide
+        if (isMusicPlaying) {
+            const currentVolume = backgroundMusic.volume;
+            const targetVolume = currentVideo ? 
+                               (volumeSlider.value * 0.02) : // Reduzir para vídeos
+                               volumeSlider.value;           // Volume normal para outros slides
+                               
+            // Aplicar fade apenas se a diferença de volume for significativa
+            if (Math.abs(currentVolume - targetVolume) > 0.01) {
+                fadeAudio(currentVolume, targetVolume, 1500); // Transição suave de 1.5 segundos
+            }
+        }
+        
+        // Se estiver em modo automático, definir o tempo para o próximo slide com base no tipo de slide
+        if (isPlaying) {
+            clearInterval(slideInterval);
+            clearTimeout(slideTimeout);
+            
+            let slideTime = 10000; // Tempo padrão para slides normais
+            
+            if (currentVideo) {
+                // Se for um slide de vídeo, usar a duração do vídeo
+                if (currentVideo.readyState > 0 && !isNaN(currentVideo.duration)) {
+                    slideTime = (currentVideo.duration * 1000) + 2000; // Duração + buffer
+                } else {
+                    // Se não conseguir ler a duração, usar um tempo maior para vídeos
+                    slideTime = 20000;
+                    
+                    // Tentar obter a duração quando os metadados estiverem disponíveis
+                    currentVideo.addEventListener('loadedmetadata', function() {
+                        if (currentSlide === index && isPlaying) {
+                            clearTimeout(slideTimeout);
+                            slideTimeout = setTimeout(nextSlide, (currentVideo.duration * 1000) + 2000);
+                        }
+                    }, { once: true });
+                }
+                
+                // Reproduzir o vídeo após um pequeno atraso
+                setTimeout(() => {
+                    try {
+                        const playPromise = currentVideo.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.log("Reprodução automática impedida:", error);
+                            });
+                        }
+                    } catch (e) {
+                        console.log("Erro ao reproduzir vídeo:", e);
+                    }
+                }, 1500);
+            } 
+            else if (isDarkTransition) {
+                // Se for o slide de transição escuro, dar mais tempo (6 segundos)
+                slideTime = 6000;
+            }
+            
+            // Definir o timeout para o próximo slide
+            slideTimeout = setTimeout(nextSlide, slideTime);
+        }
+        
+        // Atualizar a barra de progresso
+        const progress = ((index + 1) / slides.length) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+    
+    // Função para avançar para o próximo slide
+    function nextSlide() {
+        clearTimeout(slideTimeout);
+        
+        // Verificar se já está no último slide
+        if (currentSlide >= slides.length - 1) {
+            // Se estiver no último slide, parar o slideshow
+            // Garantir que o volume da música esteja normal no último slide com transição suave
+            if (isMusicPlaying) {
+                fadeAudio(backgroundMusic.volume, volumeSlider.value, 2000);
+            }
+            pauseSlideshow();
+            return; // Sair da função sem mudar o slide
+        } else {
+            // Avançar para o próximo slide
+            currentSlide++;
+        }
+        
+        showSlide(currentSlide);
+        
+        // Reiniciar o intervalo para o próximo slide se estiver reproduzindo
+        if (isPlaying && !slides[currentSlide].querySelector('video')) {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 10000);
+        }
+    }
+    
+    // Função para voltar para o slide anterior
+    function prevSlide() {
+        clearTimeout(slideTimeout);
+        
+        if (currentSlide <= 0) {
+            currentSlide = slides.length - 1;
+        } else {
+            currentSlide--;
+        }
+        
+        showSlide(currentSlide);
+        
+        // Reiniciar o intervalo para o próximo slide se estiver reproduzindo
+        if (isPlaying && !slides[currentSlide].querySelector('video')) {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 10000);
+        }
+    }
+    
+    // Funções para reproduzir/pausar o slideshow
+    function playSlideshow() {
+        isPlaying = true;
+        updatePlayPauseIcon();
+        
+        // Iniciar música de fundo se não estiver tocando
+        if (isMusicPlaying) {
+            backgroundMusic.play();
+        }
+        
+        // Se o slide atual tem vídeo, reproduzi-lo
+        const currentVideo = slides[currentSlide].querySelector('video');
+        if (currentVideo) {
+            currentVideo.play();
+            
+            // Definir timeout com base na duração do vídeo
+            if (currentVideo.readyState > 0 && !isNaN(currentVideo.duration)) {
+                slideTimeout = setTimeout(nextSlide, (currentVideo.duration * 1000) + 2000);
+            } else {
+                slideTimeout = setTimeout(nextSlide, 20000);
+            }
+        } else {
+            // Para slides regulares
+            slideInterval = setInterval(nextSlide, 10000);
+        }
+    }
+    
+    function pauseSlideshow() {
+        isPlaying = false;
+        updatePlayPauseIcon();
+        clearInterval(slideInterval);
+        clearTimeout(slideTimeout); 
+        
+        // Pausar vídeo se o slide atual tiver um
+        const currentVideo = slides[currentSlide].querySelector('video');
+        if (currentVideo) {
+            currentVideo.pause();
+        }
+    }
+    
+    // Função para atualizar o ícone play/pause
+    function updatePlayPauseIcon() {
+        if (isPlaying) {
+            playPauseBtn.className = 'pause-icon';
+            playPauseBtn.setAttribute('aria-label', 'Pausar');
+        } else {
+            playPauseBtn.className = 'play-icon';
+            playPauseBtn.setAttribute('aria-label', 'Play');
+        }
+    }
+    
+    // Event listeners para botões de navegação
+    nextBtn.addEventListener('click', function() {
+        pauseSlideshow();
+        nextSlide();
+    });
+    
+    prevBtn.addEventListener('click', function() {
+        pauseSlideshow();
+        prevSlide();
+    });
+    
+    playPauseBtn.addEventListener('click', function() {
+        if (isPlaying) {
+            pauseSlideshow();
+        } else {
+            playSlideshow();
+        }
+    });
+    
+    // Event listeners para controle de música
+    musicToggle.addEventListener('click', function(e) {
+        toggleMusic();
+        e.stopPropagation(); // Evitar que o clique afete outros elementos
+    });
+    
+    volumeSlider.addEventListener('input', adjustVolume);
+    
+    // Toggle do slider de volume
+    document.getElementById('music-toggle').addEventListener('click', function(e) {
+        const volumeContainer = document.getElementById('volume-slider-container');
+        volumeContainer.classList.toggle('active');
+        e.stopPropagation(); // Evitar que o clique afete outros elementos
+    });
+
+    // Fechar o slider de volume ao clicar em qualquer lugar da página
+    document.addEventListener('click', function(e) {
+        const volumeContainer = document.getElementById('volume-slider-container');
+        const musicToggle = document.getElementById('music-toggle');
+        
+        // Se clicar fora do botão de volume e do slider, fechar o slider
+        if (e.target !== musicToggle && e.target !== document.getElementById('volume-slider')) {
+            volumeContainer.classList.remove('active');
+        }
+    });
+    
+    // Navegação por teclado
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+            pauseSlideshow();
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            pauseSlideshow();
+            prevSlide();
+        } else if (e.key === ' ') {
+            if (isPlaying) {
+                pauseSlideshow();
+            } else {
+                playSlideshow();
+            }
+        } else if (e.key === 'm') {
+            toggleMusic();
+        }
+    });
+    
+    // Iniciar música na primeira interação do usuário (para cumprir políticas de autoplay do navegador)
+    document.addEventListener('click', function startMusicOnFirstClick() {
+        toggleMusic(); // Iniciar reprodução da música
+        document.removeEventListener('click', startMusicOnFirstClick); // Remover este listener
+    }, { once: true });
+    
+    // Criar pétalas decorativas para os slides de noivado
+    createPetals();
+    togglePetals(false); // Inicialmente escondidas
+    
+    // Configurar classes para imagens quando a página carregar
+    setupImageClasses();
+    
+    // Inicializar o gerenciamento de vídeos
+    handleVideoSlides();
+    
+    // Inicializar
+    showSlide(currentSlide);
+});
+    </script>
+</body>
+</html>
